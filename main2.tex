@@ -1,0 +1,224 @@
+%---- Sample WMSU BSMATH BEAMER template ------
+%---- Begin editing after PREAMBLE END at line 77------
+%---- Created by: Christle Jude L. Maquilan - April 2022 --
+%---- @jmaq03.jm@gmail.com -----
+
+\documentclass[xcolor=dvipsnames,envcountsect]{beamer}
+
+%------------------------------------------------
+%------------------------------------------------
+%------------------------------------------------
+%------------------------------------------------
+%------------------------------------------------
+%----------▼▼▼▼▼ START PREAMBLE ▼▼▼▼▼----------
+
+%-------- theme --------
+\usetheme{Madrid}
+
+%-------- color --------
+\definecolor{peagreen}{RGB}{180,216,45}
+\definecolor{darkpastelgreen}{rgb}{0.01, 0.75, 0.24}
+
+\usecolortheme[named=darkpastelgreen]{structure}
+%-------- set color of 'example block' to crimson theme --------
+\setbeamercolor{block body example}{bg=white}
+\setbeamercolor{block title example}{fg=white, bg=red!50!black}
+
+%-------- font --------
+\setbeamerfont{structure}{family=\rmfamily,series=\bfseries}
+\usefonttheme[stillsansseriftext]{structurebold}
+\setbeamerfont{section in head/foot}{size=\tiny}
+
+%-------- misc structure --------
+\useoutertheme[footline=authortitle,subsection=false]{miniframes}
+\useinnertheme{rounded}
+\addtobeamertemplate{block begin}{}{\justifying}
+\newtheorem{remark}[theorem]{Remark}
+\renewcommand{\indent}{\hspace*{2em}}
+\setbeamertemplate{theorems}[numbered]
+\setbeamertemplate{caption}[numbered]
+\usepackage[justification=centering]{caption}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+%-------- packages to be used -------
+\usepackage{amsmath,amsfonts,amssymb,amscd,amsthm}
+\usepackage{graphicx,xcolor,comment}
+\usepackage{mathrsfs} 
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{multicol}
+\usepackage{ragged2e}
+\usepackage{caption}
+\usepackage[english]{babel}
+\usepackage{rotating}
+\usepackage{enumerate}
+\usepackage{tikz}
+\usepackage{bm}
+\usepackage{csquotes}
+\usepackage{gensymb,textcomp,mathcomp}
+
+%-------- for bibliography -----------------
+\usepackage{biblatex}
+\setbeamertemplate{bibliography item}{\insertbiblabel}
+\addbibresource{main2_references.bib}
+\setbeamertemplate{frametitle continuation}{\frametitle{\color{white}List of References}}
+
+%-------- WMSU Backgound -------------------
+%\usebackgroundtemplate{%
+%	\tikz[overlay,remember picture] \node[opacity=0.02, at=(current page.center)] {
+%		\includegraphics[height=4.5in,width=4.5in]{./Figures/WMSU LOGO.png}};
+%}
+
+%----------▲▲▲▲▲ PREAMBLE END ▲▲▲▲▲----------
+%------------------------------------------------
+%------------------------------------------------
+%------------------------------------------------
+%------------------------------------------------
+%------------------------------------------------
+
+%---------START EDITING HERE---------------------
+\title[What is in my Sample?]{What is in my Sample? – Challenges and Approaches for Unveiling the Hidden Diversity in Plankton Samples}
+
+\author [Hoffmann, Marie]{\textbf{Marie Hoffmann (MSc Computer Science)}}
+
+\institute[Western Mindanao State University] {\emph{Advisers: }\textbf{Prof. Knut Reinert, Prof. Michael T. Monaghan}\\[1em]
+	Department of Mathematics and Computer Science\\Free University Berlin\\[1em]
+\includegraphics[scale=0.06]{./Figures/fu_logo5.png}}
+
+\date[August 23, 2022]{\footnotesize Disputation - \textbf{August 23, 2022}}
+%--------- DURATION 20 MIN ------------------
+
+\begin{document}
+	
+\begin{frame}{\titlepage}\end{frame}
+\begin{frame}{\frametitle{Presentation Outline}\tableofcontents}\end{frame}
+
+
+%--------- INTRODUCTION ----------------------
+\section{Motivation}
+\begin{frame}{Motivation}
+    \begin{itemize} 
+        \item Monitoring via environmental probing allows
+        \begin{itemize}
+            \item temporal/spatial modelling 
+            \item detection of alien/invasive species
+            \item physico chemical changes
+        \end{itemize}
+        \item We insufficiently understand the ecosystem, the connectivity of its components, and its dynamics over space and time
+        \begin{itemize} 
+            \item we intervene without understanding the consequences
+        \end{itemize}
+    \item If we would be able to probe frequently and at various locations and gain a composition resolution that is high
+    \begin{itemize} 
+        \item we can model dynamics of the environment, esp. together with other env. parameters
+        \item what else: foresee decline, uptake, forecast the effect of Eingriffe in die Natur
+        \item … more crazy, significant stuff here
+    \end{itemize}
+    \item  Metabarcoding of environmental DNA (eDNA) is the most important tool to grasp the species diversity of a an environmental sample (esample)
+\end{itemize}
+\end{frame}
+
+\section{Metabarcoding} % and Challenges
+
+\begin{frame}{Metabarcoding of Plankton}\framesubtitle{Phylogenetic Breadth and Depth}
+\begin{itemize}
+    \item esamples can comprise hundreds of organisms that may be closely or very distantly related in the taxonomic tree of life.
+    \item Ideal: each species of interest would have a unique DNA barcode flanked by highly conserved regions that can serve as primer binding sites. => (I think it is save to say that this) does not exist
+    \item whatever barcode we will choose there will be likely species indistinguishable in their barcodes, 
+    \item Current approach: analyse manually a few genomes available (from species expected to be in the sample) or use already published primer sets (known to work on clades of interest)
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Metabarcoding}\framesubtitle{Challenges}
+1. same as mixtures encounter difficulties known to single organisms DNA analysis like repeats or high intra-species variations (pictogram right)
+2. taxonomic heterogeneity (show right tax tree)
+3. missing ground truth
+4. sparse reference data sets (used for identification) in terms of taxonomic and genomic coverage
+    1. clone-and-sequence approach hard -> few reference genomes, mostly 18S rSSU
+    2.  therefore extremely limited options to search for new barcodes that would allow better resolution
+5. few human experts avaible (to support complementation of unlabeled sequences)
+6. Ununified reference databases
+    1. NCBI’s nt dataset is by far the largest, but there exists smaller, better curated databases dedicated to specific clades
+    2. Just joining them not simple, as they can be based on different taxonomic trees (SILVA /= NCBI)
+7. How much is automatizable, what tasks should be automized, and what left to manual inspectors?
+\end{frame}
+
+\section{Case Study} 
+\begin{frame}{Case Study: Lake Monitoring Project}
+* last point analyzed in Lake Monitoring Study
+* key findings:
+* Thesis 1:
+    * NGS, concretely metabarcoding allows for better presence/absence test of species
+    * binocular reading for now irreplaceable for abundance estimation, description of unknown species, description of malformations
+    * needs to be combined with better in silico methods, e.g., if a species not present, we should be able to rule out the possibility that the applied primers simply would not match
+*  
+    1. Metabarcoding has the potential to identify more clades and nebenher even clades not intended to be monitored (fungi), more clades with higher resolution
+    2. But some clades would remain undetected without the human operator in the loop, e.g., rotifera seen under the microscope, but undetected with three different primer pairs
+    3. Observation of teratological forms (indicators for environmental changes), body size estimation (same) or individual counts can only be done by manual operators 
+        * it is inherently difficult to derive individual counts from DNA reads 
+        * does not scale equally across various species
+        * each PCR unique, biased towards some species
+\end{frame}
+
+\begin{frame}{Wishlist}
+1. automized primer candidate search in uncurated databases like NCBI’s nt dataset
+    * Tool must be robust to sequencing errors, mislabeling, preference for high-frequent candidates
+2. [way of how scientific research is done] bessere zusammenführung, weiteraufbau von ergebnissen, wiederholbarkeit, metaanalysen, querying which primers had been used in study X, how effective, more precise here
+    1. high turnover rates of interns, researchers, students, postdocs, guest scientists
+    2. shorten ramp-up time: think of how much time is spent to find datasets, rebuild analyses pipelines to confirm results, data handling, installation, making a pipeline work
+
+\end{frame}
+
+\section{Main Results}
+\subsection{New Primers}
+\begin{frame}{Discovery of New Primers}
+    * the search for new primer sequences in regard of the current and ongoing status is possible by avoiding MSAs and use instead a robust k-mer-based approach
+    * incomplete reference databases (give numbers here about coverage rate)
+    * erroneous/low-quality entries 
+    * misclassified entries
+    * no complete genomes
+* expensive constraint checks like dimerisation likelihood can algorithmically be improved such that they become feasible for millions of sequences
+    *  using a 2-bit encoding scheme and bit-parallelism
+    * see PriSeT\footnote{\url{https://github.com/mariehoffmann/priSeT}}
+* demonstrated on a seemingly over-exploited region: SSU -> found so far unreported primer pairs
+\end{frame}
+
+\subsection{Database Schema}
+\begin{frame}{Database Schema}
+    * Problem: short stay of researchers, disjoint, splattered results, and the often quoted repeatability of experiments, each researcher has its own tool set, goes through the same evolution, sometimes rebuild pipelines to see if their results match -> slows down the pace
+* new types of analyses could be conducted if experimental setups, results are consolidated into a single scheme
+*  significant example here!
+* see DB schema
+* repeatability: serialisation of analysis pipelines
+
+\end{frame}
+
+
+%----------- REFERENCES  -------------
+%----------- No editing in references section ----------
+%----------- edit only in References.bib ----------
+	\begin{frame}[allowframebreaks]
+		\justifying
+		\frametitle{List of References}
+		\printbibliography
+	\end{frame}
+%--------- THANK YOU Text --------------------------
+	\begin{frame}
+		\centering
+		\begin{block}
+			\scshape
+				\begin{center}
+					\large\emph{Thanks to}
+				\end{center}
+				Supervisors: Knut Reinert, Michael T. Monaghan\newline
+				Commission: Katharina Jahn, Sandro Andreotti\newline
+				Bioinformatics Group: SeqAn Team\newline
+				BeGenDiv: Tatiana Semenova-Nelson, Felix \newline
+				IGB: Rita Adrian, ...
+		\end{block}
+% 		\nocite{akhbari2013outer,arumugam2009connected,berge1962theory}
+	\end{frame}
+%----------------------------------------------------
+\end{document}
