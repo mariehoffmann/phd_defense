@@ -1,0 +1,35 @@
+@article{Burki2020,
+    author = {Burki, Fabien and Roger, Andrew J. and Brown, Matthew W. and Simpson, Alastair G.B.},
+    journal = {Trends in Ecology \& Evolution},
+    volume = {35},
+    issue = {1},
+    pages = {43-55},
+    year = {2020},
+    title = {The New Tree of Eukaryotes},
+    doi = {10.1016/j.tree.2019.08.008}
+}
+
+@misc{PlanktonDB,
+    url = {https://github.com/mariehoffmann/plankton_database}
+}
+@misc{PriSeTGitHub,
+    url = {https://github.com/mariehoffmann/priSeT}
+}
+
+@inproceedings{PriSeT2021,
+    author = {Hoffmann, Marie and Monaghan, Michael T. and Reinert, Knut},
+    title = {PriSeT: Efficient de Novo Primer Discovery},
+    year = {2021},
+    isbn = {9781450384506},
+    publisher = {Association for Computing Machinery},
+    address = {New York, NY, USA},
+    url = {https://doi.org/10.1145/3459930.3469546},
+    doi = {10.1145/3459930.3469546},
+    abstract = {Motivation: DNA metabarcoding is commonly used to infer the species composition of environmental samples, whereby a short, homologous DNA sequence is amplified and sequenced from all members of the community. Samples can comprise hundreds of organisms that can be closely or very distantly related. DNA metabarcoding combines polymerase chain reaction (PCR) and next-generation sequencing (NGS), and sequences are taxonomically identified based on their match to a reference database. Ideally, each species of interest would have a unique DNA barcode. This short, variable sequence needs to be flanked by conserved regions that can be used as primer-binding sites. PCR primer pairs would amplify a variable barcode in a broad evolutionary range of taxa. To date, no tools exist that computationally search and analyze the effectiveness of new primer pairs for large unaligned sequence data sets. More specifically we solve the following problem: Given a set of reference sequences R = {R1, R2, ..., Rm}, find a primer set P that allows for a high taxonomic coverage. This goal can be achieved by filtering for frequent primers and ranking by coverage or variation, i.e. the number of unique barcodes for further analysis. Here we present the software PriSeT, an offline primer-discovery tool that is capable of processing large libraries and is robust against mislabeled or low-quality references. It avoids the construction of a multisequence alignment of R. Instead, PriSeT uses encodings of frequent k-mers that allow bit-parallel processing and other optimizations.Results: We first evaluated PriSeT on references (mostly 18S rRNA genes) from 19 clades covering eukaryotic organisms that are typical for freshwater plankton samples. PriSeT recovered several published primer sets as well as additional, more chemically suitable primer sets. For these new sets, we compared frequency, taxonomic coverage, and amplicon variation with published primer sets. For 11 clades we found de novo primer pairs that cover more taxa than the published ones, and for six clades de novo primers resulted in greater sequence (i.e., DNA barcode) variation. We also applied PriSeT to SARS-CoV-2 genomes and computed 114 new primer pairs with the additional constraint that the sequences have no co-occurrences in closely related taxa. These primer sets would be suitable for empirical testing.Availability: https://github.com/mariehoffmann/PriSeTContact: marie.hoffmann@fu-berlin.de},
+    booktitle = {Proceedings of the 12th ACM Conference on Bioinformatics, Computational Biology, and Health Informatics},
+    articleno = {2},
+    numpages = {12},
+    keywords = {primer discovery, metabarcoding, FM-index, SARS-CoV-2, plankton, PCR, in silico PCR},
+    location = {Gainesville, Florida},
+    series = {BCB '21}
+}
