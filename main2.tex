@@ -55,6 +55,7 @@
 
 \graphicspath{{Figures}}
 
+\newcommand{\flushdown}{\vskip0pt plus 1filll}
 
 %-------- for bibliography -----------------
 \usepackage{biblatex}
@@ -118,15 +119,14 @@
 
 \begin{frame}{Motivation: Lake Monitoring Project}
 \framesubtitle{Challenge: Capturing Diversity via NGS}
-\begin{itemize}
-    \item Trade-off: taxonomic width versus depth 
-    \item Missing ground truth % => need to remain sensitive, unbiased
-    % \item Taxonomic heterogeneity (show right tax tree)
-    \item Databases: sparse, erroneous, uncurated % partial sequences, rarely complete genomes
-    \item No unique, generally accepted taxonomic tree!  % if consulting multiple databases to maximize ID
-    \item Few human experts available (to support complementation of unlabeled sequences)
-    \item Same difficulties as single organisms DNA analysis: repeats, intra-species variation, ... 
-\end{itemize}
+\begin{enumerate}
+     \item Primer Design: taxonomic {\it width} versus {\it depth} % Taxonomic heterogeneity 
+    \item Optimization: Missing ground truth % => need to remain sensitive, unbiased
+    \item Resolution: Databases are sparse, erroneous, uncurated % partial sequences, rarely complete genomes
+    \item Consolidation: No unique, generally accepted taxonomic tree!  % if consulting multiple databases to maximize ID
+    % \item Few human experts available (to support complementation of unlabeled sequences)
+    \item  PCR: Same difficulties as single organisms DNA analysis: repeats, intra-species variation, ...
+\end{enumerate}
 \end{frame}
 
 
@@ -152,17 +152,32 @@
 \begin{frame}{I Robust Primer Discovery}
 \framesubtitle{How to make it computational feasible?}
 % \framesubtitle{Primer Search Tool: PriSeT \cite{PriSeTGitHub}}
-Avoid MSA\footnote{multiple sequence alignment} computation
+Avoid multiple sequence alignment computation
 %Challenge: amount of primer candidates derivable from database
     \begin{enumerate}
-        \item Build FM-index
+        \item Build FM-index \cite{Ferragina2005} on $T = R_1 \circ  R_2 \circ \cdots \circ R_m$  % combines the Burrows-Wheeler compression algorithm (BW, see Burrows and Wheeler, 1994) and suffix arrays (SAs) to obtain a compressible
+        \begin{itemize}
+            \item FM-index provides
+            \begin{eqnarray*}
+            \operatorname{locate} (T, \operatorname{kmer}) &:=& A[l:r]\\
+            \operatorname{frequency} (T, k) &:=& [r_i - l_i + 1]_{i\in [1:|T|]}
+            \end{eqnarray*}
+            with $l_i$, $r_i$ denoting the ranges for k-mer $T[i:i+k-1]$
+        \end{itemize}
         \item Lookup k-mers with minimal frequency threshold
     \end{enumerate}
-    % \begin{figure}\centering
-    %     \includegraphics[scale=.3]{sarscov2_genome}\caption{Transcript locations of {\it de novo} primers.}
-    % \end{figure}
-    TODO: illustration
-
+    % TODO: illustration
+% \vskip0pt plus 1filll
+\flushdown
+\rule{\textwidth}{.8pt} 
+{\footnotesize
+\begin{description}
+    \item[$R_i$] reference sequence
+    \item[$k$] target length for proto-primer
+    \item[kmer] = proto-primer
+    \item[$A$] suffix array derived from text $T$ 
+\end{description}
+}
 \end{frame}
 
 \begin{frame}{I Robust Primer Discovery}
@@ -170,21 +185,61 @@ Avoid MSA\footnote{multiple sequence alignment} computation
 % \framesubtitle{Primer Search Tool: PriSeT \cite{PriSeTGitHub}}
 Primer fitness test
 \begin{enumerate}
-    \item Two-bit encoding scheme 
-    \item Bit-parallelism
+    \item Two-bit encoding scheme %(Fig. \ref{TKMerID})
+    \item<2> Bit-parallelism %(Fig. \ref{bitparallel_CG})
 \end{enumerate}
-    TODO: illustration
-
+\only<1>{
+    \begin{figure}
+        \includegraphics[scale=.3]{TKMerID}
+        \caption{K-mer compression scheme.}\label{TKMerID}
+    \end{figure}
+}
+\only<2>{
+    \setcounter{figure}{3}
+    \begin{figure}
+        \includegraphics[scale=.5]{bitparallel_CG}
+        \caption{Bit-parallelized counting of CG.}\label{bitparallel_CG}
+    \end{figure}
+}
+\flushdown
+Presented techniques implemented in PriSeT \cite{PriSeTGitHub}.
 \end{frame}
 
 \begin{frame}{I Robust Primer Discovery}
-\framesubtitle{Evaluation}
-Demonstration on over-exploited ribosomal region: found unreported primer pairs \cite{PriSeT2021}
-TODO: results brief from paper
+\framesubtitle{Evaluation on Plankton Dataset: Library}
+\begin{figure}
+    \includegraphics[scale=.38]{plankton_data}
+    \caption{Reference sequences sampled from plankton taxa as found in GenBank's nt dataset.}
+\end{figure}
 % \hfill
-\vskip0pt plus 1filll
-Presented techniques implemented in PriSeT \cite{PriSeTGitHub}.
 \end{frame}
+
+\begin{frame}{I Robust Primer Discovery}
+\framesubtitle{Evaluation on Plankton Dataset: comparison of proto-primer}
+\begin{figure}\centering
+    \includegraphics[scale=.47]{denovo_plankton}
+    \caption{Excerpt from table of computed proto-primers (16-digits) compared to published primer pairs (SSU, EUK14, EUKA). Coverage: number of sequences covered. Variation: number of unique amplicon.}
+\end{figure}
+Results: at least one new primer pair identified by PriSeT
+\begin{itemize}
+    \item Ranking by coverage: for 11 / 19 clades %, PriSeT identifies at least one new primer pair with a higher coverage rate % than the published primers
+% \hfill
+    \item Ranking by amplicon variation: for 7 / 19 clades %, PriSeT found at least one more or equally performant primer pair
+\end{itemize}
+% given that the rSSU is already a well studied and exploited region, is not too bad
+\end{frame}
+
+\begin{frame}{I Robust Primer Discovery}
+\framesubtitle{Evaluation on Plankton Dataset: Runtime of proto-primer generation}
+\begin{figure}\centering
+
+\includegraphics[scale=.36]{plankton_runtime}
+    \caption{Runtimes for plankton clades vary from about 1 sec (Perkinsidae) to 15 min (Nematoda).}
+\end{figure}
+
+\end{frame}
+
+% Demonstration on over-exploited ribosomal region: found unreported primer pairs \cite{PriSeT2021}
 
 \begin{frame}{Motivation: Lake Monitoring Project}
 \framesubtitle{Desiderium for Ongoing Protocol Enhancement II}
@@ -213,7 +268,7 @@ Presented techniques implemented in PriSeT \cite{PriSeTGitHub}.
 \end{frame}
 
 
-\begin{frame}{II Database Schema}
+\begin{frame}{II Database Schema}\framesubtitle{Data Consolidation and Querying}
   \begin{figure}\centering
     \includegraphics[scale=.3]{DB_schema}
     \caption{Database schema \cite{PlanktonDB}}
