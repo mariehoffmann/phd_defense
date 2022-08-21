@@ -58,6 +58,14 @@
 
 \newcommand{\pfwd}{$\text{p}_{\text{fwd}}$}
 \newcommand{\prev}{$\text{p}_{\text{rev}}$}
+\newcommand{\backupbegin}{
+   \newcounter{framenumberappendix}
+   \setcounter{framenumberappendix}{\value{framenumber}}
+}
+\newcommand{\backupend}{
+   \addtocounter{framenumberappendix}{-\value{framenumber}}
+   \addtocounter{framenumber}{\value{framenumberappendix}} 
+}
 
 %-------- for bibliography -----------------
 \usepackage{biblatex}
@@ -86,7 +94,7 @@
 \begin{document}
 	
 \begin{frame}{\titlepage}\end{frame}
-\begin{frame}{\frametitle{Presentation Outline}\tableofcontents}\end{frame}
+% \begin{frame}{\frametitle{Presentation Outline}\tableofcontents}\end{frame}
 %--------- INTRODUCTION ----------------------
 % \section{Introduction} 
 % addresses the design of multiplex PCRs, application: NGS, qPCR
@@ -95,7 +103,8 @@
 \begin{frame}\frametitle{Abstract}\framesubtitle{Designing Highly Multiplex PCR Primer Sets with SADDLE}
 \underline{Problem tackled}:
     \begin{itemize}
-        \item Optimize primer set $S$ out of a pool of proto-primers w.r.t. low dimerization change % for tube PCRs (qPCR) limit seems to 70 primers
+        \item Application: Multiplex-PCR
+        \item Optimize composition of primer set $S$ given pool of proto-primers w.r.t. low dimerization chance % for tube PCRs (qPCR) limit seems to 70 primers
     \end{itemize}
 \underline{Challenges}:
     \begin{itemize}
@@ -161,6 +170,8 @@
 
 \begin{frame}
 	\frametitle{Multiplex PCR}
+	\framesubtitle{A Non-Convex Optimization Problem}
+	
 	Multiplexing: add multiple distinct primer pairs for simultaneous amplification of many regions\\
 	Challenges
     \begin{multicols}{2}
@@ -192,61 +203,35 @@
 \end{multicols}
 \end{frame}
 
-% \begin{frame}\frametitle{Optimization a Loss Function}
-% Goal: Minimize a loss function $L$ w.r.t. to a configuration $\theta$
-% $$ 
-% \widehat{\theta} = \arg\min_{\theta} L(\theta)
-% $$
-% \begin{multicols}{3}
-
-% TODO: pic convex
-% \columnbreak non-convex,
-% \columnbreak
-% discrete and non convex
-% \begin{itemize}
-%     \item Simulated Annealing 
-% \end{itemize}
-% \end{multicols}
-% \end{frame}
-
 % it is computationally intractable to optimize for larger values of n and p, e.g., authors use for p = 192 and more than 700 
+
 \begin{frame}[fragile]\frametitle{Optimization Method: Simulated Annealing}\framesubtitle{via Stochastic Sampling}
 Goal: Minimize a energy $E$ (or loss $L$) w.r.t. to a configuration $\theta$
 $$ 
 \widehat{\theta} = \arg\min_{\theta} E(\theta)
 $$
-% \begin{multicols}{2}
-% Method of choice when optimization problem is
-% 		\begin{itemize}
-% 		    \item Computationally intractable % problem in which the only exact solution is one that takes too many resources (time, memory, etc.).
-% 		    \item Non-convex target function
-% 		\end{itemize}
-
-% \columnbreak
+\begin{columns}
+\column{.7\textwidth}
 \begin{algorithm}[H]
-% \caption{Pseudocode Simulated Annealing}
 \begin{algorithmic}[1]
 \STATE $S = S_0$
 \FOR{$g=1$ to $g_t$}
 \STATE $T = \text{temperature}(1 - (g+1) / g_t)$ 
 \STATE $S_{\text{new}} = \text{neighbor}(S)$
-\IF{$P(E(S), E(S_{new}), T) \geq \text{random}(0, 1)$}
+\IF{$P(E(S), E(S_{new}), T) \geq \text{rand}(0, 1)$}
     \STATE $S = S_{\text{new}}$
 \ENDIF
 \ENDFOR
 \RETURN $S$
 \end{algorithmic}
-% label{alg:seq}
 \end{algorithm}
 
-    % Let s = s0
-    % For k = 0 through kmax (exclusive):
-    %     T ← temperature( 1 - (k+1)/kmax )
-    %     Pick a random neighbour, snew ← neighbour(s)
-    %     If P(E(s), E(snew), T) ≥ random(0, 1):
-    %         s ← snew
-    % Output: the final state s
-% \end{multicols}
+\column{.3\textwidth}
+\begin{figure}\centering
+    \includegraphics[scale=.2]{molecule.png}
+  \caption{taken from Shutterstock}
+\end{figure}
+\end{columns}
 
 \end{frame}
 
@@ -291,7 +276,7 @@ Notes: Probability $P(\cdot)$ depends on
 \begin{frame}{Evaluation I -- Paper}\framesubtitle{96-plex primer set selected from cancer-related genes}
 % Design and experimental evaluation of a 96-plex primer set zarbitrarily selected exon of a different cancer-related gene
 \begin{figure}
-    \includegraphics[width=\textwidth]{fig2_paper}
+    \includegraphics[scale=.32,trim={10cm 0 0 0 },clip=true]{fig2_paper}
     \caption{Evaluated on 10 ng of NA18562 human genomic DNA.}
 \end{figure}
 
@@ -328,7 +313,7 @@ Current setting: 92.5 \% sensitivity and 90.3 \% specificity
         \item Select proto-primers for head of Gibb's: $\Delta G \in [x_{\alpha_{5\%}}:x_{\alpha_{95\%}}]$ \footnote{$x_{\alpha_c}: cdf(x_{\alpha_c}) = c$} %.95-quantile  and drop .5-quantile for Free Gibbs energy (show density plot)
         \item Use SADDLE to propose multiplex primers (iteration vs. loss plot)
         
-        \item Result: [Live Session or recorded animation (see attachment)]
+        \item Result: [Matlab Online]
     \end{enumerate}
 	
 \vspace*{\fill}
@@ -411,7 +396,7 @@ P(S_g = T | L(T) > L(S_g)) &=& \exp{(L(S_g) - L(T)) \cdot \text{stderr}^{-1}} \\
 		\printbibliography
 	\end{frame}
 
-
+\backupbegin
 \begin{frame}\frametitle{Appendix: Evaluation I}
 \begin{figure}
     \includegraphics[width=\textwidth]{fig3_paper}
@@ -428,8 +413,8 @@ P(S_g = T | L(T) > L(S_g)) &=& \exp{(L(S_g) - L(T)) \cdot \text{stderr}^{-1}} \\
     \includegraphics[width=.7\textwidth]{plankton_p64_gt5k_gT5k_eps001_Pc}
     \caption{$N = 436$, $P = 64$, detriment normalized via stderr, $g_t = 5000$, $g_T = 5000$, $log(L^{\text{SADDLE}}_{g_T}) = 7.3$, $log(L^{\text{SADDLE}}_{g_T}) = 16.1$}
 \end{figure}
-
 \end{frame}
+\backupend
 
 %----------------------------------------------------
 \end{document}
