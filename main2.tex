@@ -118,8 +118,39 @@
 \end{figure}
 \end{frame}
 
+% task: detect trends, understand dynamics, seasonal patterns, prevent collapse in time
+% plankton more majority of organic material in the oceans
+% regular sampling is and will remain necessary to detect trends
+
 % longterm goal: optimize the combination of primers used in the protocol w.r.t. relevant species, but also broadness - sensitivity towards new trends, invasive, or poisonous species
 % less identification tasks are necessary by human experts, but focus on description of unknown species, teratological forms, biomass estimation
+
+\begin{frame}{Motivation: Lake Monitoring Project}
+\framesubtitle{Necessity to Intensify Environmental Sampling}
+\begin{columns}
+    \column{.6\textwidth}
+    \begin{itemize}
+        \item Conditions can change rapidly: see River Oder
+        \begin{itemize}
+            \item Human factors (pesticides, waste water, ...)
+            \item Bloom of toxic Golden algae species
+        \end{itemize}
+        \item Inherent limitation to modeling dynamics
+        \begin{itemize}
+            \item \lq\lq {\it Chaos is not rare in natural ecosystems}\rq\rq{} by Rogers et al.\cite{Rogers2022} 
+            \item Highest prevalence for plankton and insects
+        \end{itemize}
+    \end{itemize}
+    \column{.4\textwidth}
+        \begin{figure}
+            \includegraphics[scale=.2, trim={1cm 0cm 18cm 0cm},clip=true]{oder_fish}
+            \caption{About 200 tons of dead fish have been removed so far.\licensecc dpa/Patrick Pleul}
+        \end{figure}
+    \end{columns}
+\end{frame}
+%  => we will never reach a moment where is less sampling will be sufficient to understand
+% - June Nature https://www.nature.com/articles/s41559-022-01787-y
+% "Chaos is not rare in natural ecosystems" - authors 172 population time series and found evidence for chaos in >30%, most prevalent for plankton and insects
 
 \begin{frame}{Motivation: Lake Monitoring Project}
 \framesubtitle{Challenge: Species Diversity}
@@ -128,19 +159,14 @@
     \caption{Dendrogram of the eukaryote tree of life proposed by \cite{Burki2020}.}
 \end{figure}
 \end{frame}
-
-% Supergroups of the eurkaryote tree of life 
-% based on phylogenetic differences
+% When designing or enhancing a metabarcoding protocol, the major challenge is the 
+% phylogenetic diversity that you want to capture
+% Figure shows supergroups of the eurkaryote tree of life based on phylogenetic differences
+% capturing taxonomic width versus depth (sensitivity vs. indicator species)
 % there exists multiple taxonomic trees, relevant when resolving to higher taxa above species, Consolidation: No unique, generally accepted taxonomic
 % Challenges in protocol enhancement
-% capturing taxonomic {\it width} versus {\it depth} % Taxonomic heterogeneity 
 % Optimization: Missing ground truth % => need to remain sensitive, unbiased
 % Resolution: Databases are sparse, erroneous, uncurated % partial sequences, rarely complete genomes
-%     \item  tree!  % if consulting multiple databases to maximize ID
-%     % \item Few human experts available (to support complementation of unlabeled sequences)
-%     \item  PCR: Same difficulties as single organisms DNA analysis: repeats, intra-species variation, ...
-% \end{enumerate}
-% \end{frame}
 
 \begin{frame}\frametitle{Motivation: Lake Monitoring Project}
 \framesubtitle{Study Design}
@@ -169,10 +195,11 @@ Pooled samples underwent both
 \end{figure}
 \end{multicols}
 \end{frame}
+% Briefly talk about a study that was launched to understand to what degree DNA ID can replace Morph ID
 % all primers target V4 region of the 18S rRNA gene
 % EUK15 target all groups of Eukaryota except Excavata and Microsporidia
 % EUK14 target marine sediment communities
-% DIV4 diatoms
+% DIV4 diatoms, contribute approximately 20 % of global oxygen production and represent nearly half of the organic material in the oceans
 
 \begin{frame}\frametitle{Motivation: Lake Monitoring Project}
 \framesubtitle{Study Results: Number of Taxa}
@@ -186,12 +213,14 @@ EUK15 ID && 325 && 277 (69 \%) && 128 (40 \%) \\
 EUK14 ID && 506 && 268 (53 \%) && 166 (33 \%) \\
 DIV4 ID && 543 && 344 (63 \%) && 231 (43 \%) \\\bottomrule
 \end{tabular}
-\caption{Number of taxa (Morph ID) and OTUs (molecular ID) found and identified to genus or species level. } \label{Tab:Tab_2} % Note that the counters are hierarchical, i.e. genera counts include species.
+\caption{Number of taxa (Morph ID) and OTUs (molecular ID) found and identified to genus or species level. } \label{Tab:Tab_2} 
+\end{table}
+\end{frame}
+% Note that the counters are hierarchical, i.e. genera counts include species.
 % at first glance this looks promising, 
 % table does not tell us about the amount of overlap
-\end{table}
-
-\end{frame}
+% initial question was whether the identification could be taken over completely by DNA ID 
+% In fact, we cannot
 
 \begin{frame}\frametitle{Motivation: Lake Monitoring Project}
 \frametitle{Key Findings Morph ID vs DNA ID}
@@ -221,36 +250,37 @@ DNA ID
 \end{figure}
 \end{columns}
 \end{frame}
-
+% Morph ID
+%   unbiased: count for what exists visual evidence
+%   allows individual and biomass estimation
+% DNA ID
+%   detects more species -> presence test given sufficient backup
 
 \begin{frame}{Motivation: Lake Monitoring Project}
 \framesubtitle{Desiderium for Ongoing Protocol Enhancement}
 \begin{enumerate}[I]
     \item Robust {\it de novo} primer discovery and {\it in silico} evaluation % understanding its efficiency
     \begin{itemize}
-        \item Automated proto-primer search in uncurated databases % like NCBI’s nt dataset
+        \item Automated proto-primer search in uncurated databases 
         \item Robust to sequencing errors
-        \item Preference for high-frequent proto-primers % as a proxy for coverage of a specific clade
+        \item Preference for high-frequent proto-primers 
     \end{itemize}
 \end{enumerate}
 \begin{figure}
     \includegraphics[scale=.4]{DB_protoprimers}
 \end{figure}
 \end{frame}
-
+% like NCBI’s nt dataset
+% as a proxy for coverage of a specific clade
 % cubic in n for T-Coffee O(n2l2) + O(n3l)
 
-\begin{frame}{Robust Primer Discovery}
+\begin{frame}{Robust Primer Discovery with PriSeT \cite{PriSeT}}
 \framesubtitle{How to make it computational feasible?}
 % \framesubtitle{Primer Search Tool: PriSeT \cite{PriSeTGitHub}}
 \begin{block}
 	\scshape
 Idea: Avoid MSA, but search for frequent k-mers (=proto-primers)
 \end{block}
-%  T-Coffee for MSA computations consumes O(n2l2) + O(n3l)
-% 15k Chlorophyta -> n^3 = 3.4 x 10^12 -> Dikarya: 209,449
-%Challenge: amount of primer candidates derivable from database
-% MSA are sensitive to sequence errors
     \begin{enumerate}
         \item Build FM-index \cite{Ferragina2005} on $T = R_1 \circ  R_2 \circ \cdots \circ R_m$  % combines the Burrows-Wheeler compression algorithm (BW, see Burrows and Wheeler, 1994) and suffix arrays (SAs) to obtain a compressible
         \begin{itemize}
@@ -276,11 +306,19 @@ Idea: Avoid MSA, but search for frequent k-mers (=proto-primers)
 \end{description}
 }
 \end{frame}
+%  T-Coffee for MSA computations consumes O(n2l2) + O(n3l)
+% 15k Chlorophyta -> n^3 = 3.4 x 10^12 -> Dikarya: 209,449
+%Challenge: amount of primer candidates derivable from database
+% MSA are sensitive to sequence errors
+% MSA meaningless for phylogenetic distant sequences
+% frequency returns for each text position the total number of k-mers that start at T[i:i+k]
+% to give a number: 114 sequences (0.13 MB). 
+% PriSeT identifies about 2^18 frequent k-mers
 
 \begin{frame}{Robust Primer Discovery}
 \framesubtitle{How to make it computational feasible?}
 % \framesubtitle{Primer Search Tool: PriSeT \cite{PriSeTGitHub}}
-Primer fitness test
+Primer fitness test: Annealing, CG, T$_m$, Runs, $(A|T)$-tail, etc.
 \begin{enumerate}
     \item Two-bit encoding scheme $\texttt{A}\mapsto 00$, $\texttt{C}\mapsto 01$,  $\texttt{G}\mapsto 10$, $\texttt{T}\mapsto 11$ %(Fig. \ref{TKMerID})
     \item<2> Bit-parallelism %(Fig. \ref{bitparallel_CG})
@@ -299,7 +337,6 @@ Primer fitness test
     \end{figure}
 }
 \flushdown
-Presented techniques implemented in PriSeT \cite{PriSeTGitHub}.
 \end{frame}
 
 \begin{frame}{Robust Primer Discovery}
